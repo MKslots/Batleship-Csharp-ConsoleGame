@@ -42,66 +42,88 @@ namespace BatleshipConsoleGame
             }
         }
 
-        public void ShipPlacment(Ship[,] sea)
+        public void ShipPlacment(Sea sea)
         {
             bool placed = false;
 
             while (placed == false)
             {
-
-                Console.WriteLine($"Select location of your {Name} between 1-10:");
-                Console.Write("Row Location: ");
-                int x = int.Parse(Console.ReadLine()) - 1;
-                Console.Write("Column location: ");
-                int y = int.Parse(Console.ReadLine()) - 1;
-
-                Console.Write("Enter 1 for Horizontal or 2 Vertical :");
-                string orient = Console.ReadLine();
-
-                string notEmpty = $"You already got battleship on {x + 1}, {y + 1} location, please select other location.";
-
-                if (sea[x, y].Name != "Empty")
+                try
                 {
-                    Console.WriteLine(notEmpty);
-                    continue;
+
+                    Console.WriteLine($"Select location of your {Name} between 1-10:");
+                    Console.Write("Row Location: ");
+                    int x = int.Parse(Console.ReadLine()) - 1;
+                    Console.Write("Column location: ");
+                    int y = int.Parse(Console.ReadLine()) - 1;
+
+                    Console.Write("Enter 1 for Horizontal or 2 Vertical :");
+                    string orient = Console.ReadLine();
+
+                    if (!sea.OnSea(x, y))
+                    {
+                        throw new OutOfBoundsException($"{x - 1}, {y - 1} is outside the boundaries of the sea.");
+                    }
+
+                    string notEmpty = $"You already got battleship on {x + 1}, {y + 1} location, please select other location.";
+
+
+
+                    if (sea.GameSea[x, y].Name != "Empty")
+                    {
+                        Console.WriteLine(notEmpty);
+                        continue;
+                    }
+                    else if (sea.GameSea[x, y].Name == "Empty")
+                    {
+                        if (orient == "1")
+                        {
+                            for (int i = 0; i < Health; i++, x++)
+                            {
+                                if (sea.GameSea[x, y].Name != "Empty")
+                                {
+                                    Console.WriteLine(notEmpty);
+                                    continue;
+                                }
+                                else
+                                {
+                                    sea.GameSea[x, y] = this;
+                                    placed = true;
+                                }
+
+                            }
+                        }
+                        else if (orient == "2")
+                        {
+                            for (int i = 0; i < Health; i++, y++)
+                            {
+                                if (sea.GameSea[x, y].Name != "Empty")
+                                {
+                                    Console.WriteLine(notEmpty);
+                                    continue;
+                                }
+                                else
+                                {
+                                    sea.GameSea[x, y] = this;
+                                    placed = true;
+                                }
+
+                            }
+
+                        }
+                        else
+                        {
+                            throw new FormatException();
+                        }
+                    }
                 }
-                else if (sea[x, y].Name == "Empty")
+                catch (OutOfBoundsException ex)
                 {
-                    if (orient == "1")
-                    {
-                        for (int i = 0; i < Health; i++, x++)
-                        {
-                            if (sea[x, y].Name != "Empty")
-                            {
-                                Console.WriteLine(notEmpty);
-                                continue;
-                            }
-                            else
-                            {
-                                sea[x, y] = this;
-                                placed = true;
-                            }
-
-                        }
-                    }
-                    else if (orient == "2")
-                    {
-                        for (int i = 0; i < Health; i++, y++)
-                        {
-                            if (sea[x, y].Name != "Empty")
-                            {
-                                Console.WriteLine(notEmpty);
-                                continue;
-                            }
-                            else
-                            {
-                                sea[x, y] = this;
-                                placed = true;
-                            }
-
-                        }
-
-                    }
+                    Console.WriteLine(ex.Message);
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("This is not valid input select 1 or 2");
                 }
 
             }

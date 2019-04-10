@@ -28,7 +28,12 @@ namespace BatleshipConsoleGame
                 }
             }
         }
-        
+
+        public bool OnSea(int X, int Y)
+        {
+            return X >= 0 && X < GameSea.GetLength(0) &&
+                   Y >= 0 && Y < GameSea.GetLength(1);
+        }
 
     }
 }

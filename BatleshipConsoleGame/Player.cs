@@ -19,9 +19,9 @@ namespace BatleshipConsoleGame
         {
             Sea = sea;
 
-            frigate.ShipPlacment(sea.GameSea);
-            submarine.ShipPlacment(sea.GameSea);
-            destroyer.ShipPlacment(sea.GameSea);
+            frigate.ShipPlacment(sea);
+            submarine.ShipPlacment(sea);
+            destroyer.ShipPlacment(sea);
            
         }
            
@@ -33,6 +33,10 @@ namespace BatleshipConsoleGame
             Console.WriteLine("Y ?");
             int shootY = int.Parse(Console.ReadLine()) - 1;
 
+            if (!player.Sea.OnSea(shootX, shootY))
+            {
+                throw new OutOfBoundsException($"{shootX - 1}, {shootY - 1} is outside the boundaries of the sea.");
+            }
 
             if (player.Sea.GameSea[shootX, shootY].Name != "Empty" && player.Sea.GameSea[shootX, shootY].Name != "Sank")
             {
