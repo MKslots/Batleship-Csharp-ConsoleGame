@@ -10,10 +10,25 @@ namespace BatleshipConsoleGame
     {
         public static void Play()
         {
+            Console.Write("What is Player 1 name? : ");
+            string name1 = Console.ReadLine();
+            Console.Write("What is Player 2 name? : ");
+            string name2 = Console.ReadLine();
+
             Sea Player1Sea = new Sea();
-            Player player1 = new Player(Player1Sea);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{name1}");
+            Console.ResetColor();
+            Console.WriteLine(" Please place battle ships on the sea.");
+
+            Player player1 = new Player(Player1Sea, name1);
+        
             Sea Player2Sea = new Sea();
-            Player player2 = new Player(Player2Sea);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{name2}");
+            Console.ResetColor();
+            Console.WriteLine(" Please place battle ships on the sea.");
+            Player player2 = new Player(Player2Sea, name2);
 
             while (true)
             {

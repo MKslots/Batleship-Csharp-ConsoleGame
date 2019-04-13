@@ -10,8 +10,10 @@ namespace BatleshipConsoleGame
     {
         public static void Play()
         {
+            Console.Write("What is your name? : ");
+            string name = Console.ReadLine();
             Sea PlayerSea = new Sea();
-            Player player1 = new Player(PlayerSea);
+            Player player1 = new Player(PlayerSea, name);
             Sea ComputerSea = new Sea();
             Computer computer = new Computer(ComputerSea);
 

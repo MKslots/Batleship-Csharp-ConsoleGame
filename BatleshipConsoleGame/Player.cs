@@ -10,31 +10,44 @@ namespace BatleshipConsoleGame
     {
         public Sea Sea { get; set; }
         public int DestroyedShips { get; set; }
+        public string Name { get; set; }
 
         readonly Ship frigate = new Ship(2);
         readonly Ship submarine = new Ship(3);
         readonly Ship destroyer = new Ship(4);       
         
-        public Player(Sea sea)
+        public Player(Sea sea, string name)
         {
             Sea = sea;
+            Name = name;
 
             frigate.ShipPlacment(sea);
-            submarine.ShipPlacment(sea);
-            destroyer.ShipPlacment(sea);
+            //submarine.ShipPlacment(sea);
+            //destroyer.ShipPlacment(sea);
            
         }
-           
+
+        string NameColor()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;           
+            return Name;
+        } 
+
+        void ResetColor() => Console.ResetColor();
+
 
         public void Shoot(Player player)
         {
+            Console.Write($"{NameColor()}");
+            ResetColor();
+            Console.WriteLine(" Turn ");
+
             while (true)
             {
-
-
-                Console.WriteLine("X ?");
+           
+                Console.Write("X ? : ");
                 int shootX = int.Parse(Console.ReadLine()) - 1;
-                Console.WriteLine("Y ?");
+                Console.Write("Y ? : ");
                 int shootY = int.Parse(Console.ReadLine()) - 1;
 
                 if (!player.Sea.OnSea(shootX, shootY))
@@ -82,12 +95,16 @@ namespace BatleshipConsoleGame
 
         public void Shoot(Computer computer)
         {
+
+            Console.Write($"{NameColor()}");
+            ResetColor();
+            Console.WriteLine(" Turn ");
+
             while (true)
             {
-
-                Console.WriteLine("X ?");
+                Console.Write("X ? : ");
                 int shootX = int.Parse(Console.ReadLine()) - 1;
-                Console.WriteLine("Y ?");
+                Console.Write("Y ? : ");
                 int shootY = int.Parse(Console.ReadLine()) - 1;
 
                 if (!computer.Sea.OnSea(shootX, shootY))
