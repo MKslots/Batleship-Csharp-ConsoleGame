@@ -28,39 +28,107 @@ namespace BatleshipConsoleGame
 
         public void Shoot(Player player)
         {
-            Console.WriteLine("X ?");
-            int shootX = int.Parse(Console.ReadLine()) - 1;
-            Console.WriteLine("Y ?");
-            int shootY = int.Parse(Console.ReadLine()) - 1;
-
-            if (!player.Sea.OnSea(shootX, shootY))
+            while (true)
             {
-                throw new OutOfBoundsException($"{shootX - 1}, {shootY - 1} is outside the boundaries of the sea.");
-            }
 
-            if (player.Sea.GameSea[shootX, shootY].Name != "Empty" && player.Sea.GameSea[shootX, shootY].Name != "Sank")
-            {
-                player.Sea.GameSea[shootX, shootY].Health--;
-                if (player.Sea.GameSea[shootX, shootY].Health > 0)
+
+                Console.WriteLine("X ?");
+                int shootX = int.Parse(Console.ReadLine()) - 1;
+                Console.WriteLine("Y ?");
+                int shootY = int.Parse(Console.ReadLine()) - 1;
+
+                if (!player.Sea.OnSea(shootX, shootY))
                 {
-                    Console.WriteLine($"Hit {player.Sea.GameSea[shootX, shootY].Name} but not sink!");
-                    player.Sea.GameSea[shootX, shootY] = player.Sea.sank;
-                }
-                else if (player.Sea.GameSea[shootX, shootY].Health == 0)
-                {
-                    Console.WriteLine($"Hit {player.Sea.GameSea[shootX, shootY].Name} and sank!");
-                    player.Sea.GameSea[shootX, shootY] = player.Sea.sank;
-                    player.DestroyedShips++;
+                    throw new OutOfBoundsException($"{shootX - 1}, {shootY - 1} is outside the boundaries of the sea.");
                 }
 
+                if (player.Sea.GameSea[shootX, shootY].Name != "Empty" && player.Sea.GameSea[shootX, shootY].Name != "Sank" && player.Sea.GameSea[shootX, shootY].Name != "Miss")
+                {
+                    player.Sea.GameSea[shootX, shootY].Health--;
+                    if (player.Sea.GameSea[shootX, shootY].Health > 0)
+                    {
+                        Console.WriteLine($"Hit {player.Sea.GameSea[shootX, shootY].Name} but not sink!");
+                        player.Sea.GameSea[shootX, shootY] = player.Sea.sank;
+                        break;
+                    }
+                    else if (player.Sea.GameSea[shootX, shootY].Health == 0)
+                    {
+                        Console.WriteLine($"Hit {player.Sea.GameSea[shootX, shootY].Name} and sank!");
+                        player.Sea.GameSea[shootX, shootY] = player.Sea.sank;
+                        player.DestroyedShips++;
+                        break;
+                    }
+
+                }
+                else if (player.Sea.GameSea[shootX, shootY].Name == "Sank")
+                {
+                    Console.WriteLine("You have already attacked this battleship! Please try other spot.");
+                    continue;
+
+                }
+                else if (player.Sea.GameSea[shootX, shootY].Name == "Miss")
+                {
+                    Console.WriteLine("You have already attacked this location! Please try other spot.");
+                    continue;
+                }
+                else if (player.Sea.GameSea[shootX, shootY].Name == "Empty")
+                {
+                    Console.WriteLine("Miss!");
+                    player.Sea.GameSea[shootX, shootY] = player.Sea.miss;
+                    break;
+                }
             }
-            else if (player.Sea.GameSea[shootX, shootY].Name == "Sank")
+        }
+
+        public void Shoot(Computer computer)
+        {
+            while (true)
             {
-                Console.WriteLine("You have already attacked this battleship! Please try other spot.");
-            }
-            else if (player.Sea.GameSea[shootX, shootY].Name == "Empty")
-            {
-                Console.WriteLine("Miss!");
+
+                Console.WriteLine("X ?");
+                int shootX = int.Parse(Console.ReadLine()) - 1;
+                Console.WriteLine("Y ?");
+                int shootY = int.Parse(Console.ReadLine()) - 1;
+
+                if (!computer.Sea.OnSea(shootX, shootY))
+                {
+                    throw new OutOfBoundsException($"{shootX - 1}, {shootY - 1} is outside the boundaries of the sea.");
+                }
+
+                if (computer.Sea.GameSea[shootX, shootY].Name != "Empty" && computer.Sea.GameSea[shootX, shootY].Name != "Sank" && computer.Sea.GameSea[shootX, shootY].Name != "Miss")
+                {
+                    computer.Sea.GameSea[shootX, shootY].Health--;
+                    if (computer.Sea.GameSea[shootX, shootY].Health > 0)
+                    {
+                        Console.WriteLine($"Hit {computer.Sea.GameSea[shootX, shootY].Name} but not sink!");
+                        computer.Sea.GameSea[shootX, shootY] = computer.Sea.sank;
+                        break;
+                    }
+                    else if (computer.Sea.GameSea[shootX, shootY].Health == 0)
+                    {
+                        Console.WriteLine($"Hit {computer.Sea.GameSea[shootX, shootY].Name} and sank!");
+                        computer.Sea.GameSea[shootX, shootY] = computer.Sea.sank;
+                        computer.DestroyedShips++;
+                        break;
+                    }
+
+                }
+                else if (computer.Sea.GameSea[shootX, shootY].Name == "Sank")
+                {
+                    Console.WriteLine("You have already attacked this battleship! Please try other spot.");
+                    continue;
+                }
+                else if (computer.Sea.GameSea[shootX, shootY].Name == "Miss")
+                {
+                    Console.WriteLine("You have already attacked this location! Please try other spot.");
+                    continue;
+                }
+                else if (computer.Sea.GameSea[shootX, shootY].Name == "Empty")
+                {
+                    Console.WriteLine("Miss!");
+                    computer.Sea.GameSea[shootX, shootY] = computer.Sea.miss;
+                    break;
+                }
             }
         }
     }

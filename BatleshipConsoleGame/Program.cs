@@ -10,34 +10,40 @@ namespace BatleshipConsoleGame
     {
         static void Main(string[] args)
         {
-            Sea PlayerSea = new Sea();
-            Player player1 = new Player(PlayerSea);
 
+            Console.WriteLine("Welcome to the Battle Ship Console Game.");
+            Console.WriteLine("Please select game mode :");
+            Console.WriteLine("1. Player vs Computer");
+            Console.WriteLine("2. Player vs Player");
             while (true)
             {
                 try
                 {
-                    player1.Shoot(player1);
-
-                    if (player1.DestroyedShips >= 3)
+                    int mode = int.Parse(Console.ReadLine());
+                    if (mode == 1)
                     {
-                        Console.WriteLine("You Won! Bye!");
+                        PvC.Play();
                         break;
                     }
-
-                }
-                catch (OutOfBoundsException ex)
-                {
-                    Console.WriteLine(ex.Message);
+                    else if (mode == 2)
+                    {
+                        PvP.Play();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please select 1 or 2.");
+                        continue;
+                    }
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("This is not valid input");
+                    Console.WriteLine("This is not valid input, please select 1 or 2.");
                 }
             }
 
 
 
-            }
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace BatleshipConsoleGame
         public Ship[,] GameSea { get; set; }
         readonly Ship empty = new Ship(0);
         public readonly Ship sank = new Ship(-1);
+        public Ship miss = new Ship(-2);
 
         public Sea()
         {

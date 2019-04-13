@@ -8,6 +8,8 @@ namespace BatleshipConsoleGame
 {
     class Ship
     {
+        Random random = new Random();
+
         public int Health { get; set; }
         public string Name { get; set; }
         public int Length { get; set; }
@@ -39,6 +41,11 @@ namespace BatleshipConsoleGame
             {
                 Length = -1;
                 Name = "Sank";
+            }
+            else if (Health == -2)
+            {
+                Length = -2;
+                Name = "Miss";
             }
         }
 
@@ -117,6 +124,10 @@ namespace BatleshipConsoleGame
                         }
                     }
                 }
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("Battleship placed out of sea, please try again.");
+                }
                 catch (OutOfBoundsException ex)
                 {
                     Console.WriteLine(ex.Message);
@@ -128,6 +139,74 @@ namespace BatleshipConsoleGame
 
             }
 
+        }
+
+        public void ComputerShipPlacement(Sea sea)
+        {
+            bool placed = false;
+
+            while (placed == false)
+            {
+                try
+                {
+
+                    int x = random.Next(9);
+                    int y = random.Next(9);
+                    int orient = random.Next(2);
+
+                    if (sea.GameSea[x, y].Name != "Empty")
+                    {
+                        continue;
+                    }
+                    else if (sea.GameSea[x, y].Name == "Empty")
+                    {
+                        if (orient == 1)
+                        {
+                            for (int i = 0; i < Health; i++, x++)
+                            {
+                                if (sea.GameSea[x, y].Name != "Empty")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    sea.GameSea[x, y] = this;
+                                    placed = true;
+                                }
+
+                            }
+                        }
+                        else if (orient == 2)
+                        {
+                            for (int i = 0; i < Health; i++, y++)
+                            {
+                                if (sea.GameSea[x, y].Name != "Empty")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    sea.GameSea[x, y] = this;
+                                    placed = true;
+                                }
+
+                            }
+                        }
+                    }
+                }
+                catch(IndexOutOfRangeException)
+                {
+                    continue;
+                }   
+                catch (OutOfBoundsException)
+                {
+                    continue;
+                }
+                catch (FormatException)
+                {
+                    continue;
+                }
+            }
         }
     }
 }
