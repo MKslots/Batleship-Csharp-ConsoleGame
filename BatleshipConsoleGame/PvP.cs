@@ -40,6 +40,7 @@ namespace BatleshipConsoleGame
                     if (player1.DestroyedShips >= 3 || player2.DestroyedShips >= 3)
                     {
                         Console.WriteLine("You Won! Bye!");
+
                         break;
                     }
 

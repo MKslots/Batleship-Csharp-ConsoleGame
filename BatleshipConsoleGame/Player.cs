@@ -22,8 +22,8 @@ namespace BatleshipConsoleGame
             Name = name;
 
             frigate.ShipPlacment(sea);
-            //submarine.ShipPlacment(sea);
-            //destroyer.ShipPlacment(sea);
+            submarine.ShipPlacment(sea);
+            destroyer.ShipPlacment(sea);
            
         }
 
